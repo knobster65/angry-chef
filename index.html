@@ -477,37 +477,35 @@ section {
   position: relative;
   max-width: 1000px;
   margin: 0 auto;
-  aspect-ratio: 16 / 9;
+  padding-bottom: 56.25%;
+  height: 0;
   border: 1px solid rgba(255, 23, 68, 0.2);
   background: var(--dark-panel);
-  overflow: hidden;
 }
-.trailer-frame::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 20%;
-  right: 20%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--neon-red), transparent);
-  pointer-events: none;
-}
-.trailer-frame::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 30%;
-  right: 30%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--hot-orange), transparent);
-  pointer-events: none;
-}
-
 .trailer-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border: none;
-  display: block;
+}
+
+/* Neon accent bars on frame */
+.trailer-frame::before,
+.trailer-frame::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+}
+.trailer-frame::before {
+  top: 0; left: 20%; right: 20%; height: 2px;
+  background: linear-gradient(to right, transparent, var(--neon-red), transparent);
+}
+.trailer-frame::after {
+  bottom: 0; left: 30%; right: 30%; height: 2px;
+  background: linear-gradient(to right, transparent, var(--hot-orange), transparent);
 }
 
 /* Corner markers */
@@ -954,11 +952,10 @@ footer {
   </div>
   <div class="trailer-frame reveal">
     <iframe
-      src="https://www.youtube.com/embed/cyvWhFaTiQw?rel=0&disablekb=1"
+      src="https://www.youtube.com/embed/cyvWhFaTiQw?rel=0&modestbranding=1"
       title="Angry Chef World Tour Trailer"
       allowfullscreen
-      width="100%"
-      height="100%">
+      loading="lazy">
     </iframe>
   </div>
   <div style="text-align: center; margin-top: 1.5rem;" class="reveal">
