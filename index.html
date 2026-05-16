@@ -944,7 +944,7 @@ footer {
     <div class="corner-markers"></div>
     <span class="corner-below left"></span>
     <span class="corner-below right"></span>
-    <video controls playsinline preload="metadata" poster="">
+    <video controls playsinline preload="metadata" tabindex="-1">
       <source src="angrychef.mp4" type="video/mp4">
       Your browser does not support video.
     </video>
@@ -1125,6 +1125,12 @@ const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 });
+
+// Ensure page loads at top (video controls can steal focus and scroll)
+history.scrollRestoration = 'manual';
+document.querySelector('video')?.blur();
+requestAnimationFrame(() => window.scrollTo(0, 0));
+requestAnimationFrame(() => window.scrollTo(0, 0));
 
 // Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
