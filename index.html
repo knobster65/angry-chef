@@ -23,13 +23,18 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: auto; }
+html {
+  scroll-behavior: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
 
 body {
   font-family: 'Outfit', sans-serif;
   background: var(--void);
   color: var(--ghost-white);
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 /* CRT Scanlines */
@@ -156,6 +161,7 @@ nav.scrolled {
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -491,11 +497,13 @@ section {
   object-fit: contain;
   display: block;
   background: #000;
+  touch-action: none;
 }
 
-/* Style browser video controls — neon accent on focus */
-.trailer-frame video::-webkit-media-controls-panel {
-  background: linear-gradient(to top, rgba(10, 10, 12, 0.9), transparent);
+/* Prevent browser focus on video controls from scrolling */
+.trailer-frame {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: auto;
 }
 
 /* Corner markers */
