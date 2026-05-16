@@ -1,0 +1,7 @@
+# Secrets - never commit these
+.deploy_key
+.deploy.pub
+deploy.sh
+
+# Local Claude stuff
+.claude/

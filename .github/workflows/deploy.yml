@@ -1,0 +1,27 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 2.24.78.114
+          username: root
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            TMP=$(mktemp -d)
+            git clone --depth 1 https://github.com/knobster65/angry-chef.git $TMP
+            rm -rf /var/www/angrychef/*
+            cp -r $TMP/* /var/www/angrychef/
+            rm -rf $TMP
+            echo "[$(date)] Deployed angrychef" >> /var/log/deploy.log
