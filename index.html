@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -944,7 +944,7 @@ footer {
     <div class="corner-markers"></div>
     <span class="corner-below left"></span>
     <span class="corner-below right"></span>
-    <video controls playsinline preload="metadata" tabindex="-1">
+    <video controls playsinline preload="none" tabindex="-1" id="trailer-video">
       <source src="angrychef.mp4" type="video/mp4">
       Your browser does not support video.
     </video>
@@ -1126,26 +1126,23 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// Ensure page loads at top — disable smooth scroll temporarily
+// Ensure page loads at top
 history.scrollRestoration = 'manual';
-document.querySelector('video')?.blur();
-const html = document.documentElement;
-html.style.scrollBehavior = 'auto';
+document.documentElement.style.scrollBehavior = 'auto';
 window.scrollTo(0, 0);
-setTimeout(() => window.scrollTo(0, 0), 50);
-setTimeout(() => window.scrollTo(0, 0), 100);
 
-// Smooth scroll for anchor links (works without CSS scroll-behavior)
+// Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-      history.pushState(null, null, a.getAttribute('href'));
-    }
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    history.pushState(null, null, a.getAttribute('href'));
   });
 });
+
+// Handle popstate (back/forward button) to scroll to top
+window.addEventListener('popstate', () => window.scrollTo(0, 0));
 
 // Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
