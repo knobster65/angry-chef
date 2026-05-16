@@ -23,7 +23,7 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 
 body {
   font-family: 'Outfit', sans-serif;
@@ -1126,11 +1126,26 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// Ensure page loads at top (video controls can steal focus and scroll)
+// Ensure page loads at top — disable smooth scroll temporarily
 history.scrollRestoration = 'manual';
 document.querySelector('video')?.blur();
-requestAnimationFrame(() => window.scrollTo(0, 0));
-requestAnimationFrame(() => window.scrollTo(0, 0));
+const html = document.documentElement;
+html.style.scrollBehavior = 'auto';
+window.scrollTo(0, 0);
+setTimeout(() => window.scrollTo(0, 0), 50);
+setTimeout(() => window.scrollTo(0, 0), 100);
+
+// Smooth scroll for anchor links (works without CSS scroll-behavior)
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      history.pushState(null, null, a.getAttribute('href'));
+    }
+  });
+});
 
 // Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
