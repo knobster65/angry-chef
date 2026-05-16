@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Angry Chef World Tour — Culinary Chaos Awaits</title>
+<script>history.scrollRestoration='manual';document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0)</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Share+Tech+Mono&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -940,7 +941,7 @@ footer {
 }
 </style>
 </head>
-<body>
+<body onload="window.scrollTo(0,0)">
 
 <div class="grid-bg"></div>
 
@@ -1181,11 +1182,6 @@ const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 });
-
-// Ensure page loads at top
-history.scrollRestoration = 'manual';
-document.documentElement.style.scrollBehavior = 'auto';
-window.scrollTo(0, 0);
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(a => {
