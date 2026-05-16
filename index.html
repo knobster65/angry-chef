@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Angry Chef World Tour — Culinary Chaos Awaits</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<script>history.scrollRestoration='manual';document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0);window.addEventListener('pageshow',function(){setTimeout(function(){window.scrollTo(0,0)},0)})</script>
+<script>
+history.scrollRestoration='manual';
+document.documentElement.style.scrollBehavior='auto';
+window.addEventListener('load',function(){window.scrollTo(0,0)});
+window.addEventListener('pageshow',function(e){setTimeout(function(){window.scrollTo(0,0)},50)});
+window.addEventListener('focus',function(){window.scrollTo(0,0)});
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Share+Tech+Mono&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -948,8 +954,9 @@ footer {
     <iframe
       src="https://www.youtube.com/embed/cyvWhFaTiQw?rel=0&disablekb=1"
       title="Angry Chef World Tour Trailer"
+      tabindex="-1"
       loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>
   </div>
@@ -1132,13 +1139,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-    history.pushState(null, null, a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'auto' });
   });
 });
-
-// Handle popstate (back/forward button) to scroll to top
-window.addEventListener('popstate', () => window.scrollTo(0, 0));
 
 // Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
