@@ -8,9 +8,13 @@
 <script>
 history.scrollRestoration='manual';
 document.documentElement.style.scrollBehavior='auto';
-window.addEventListener('load',function(){window.scrollTo(0,0)});
-window.addEventListener('pageshow',function(e){setTimeout(function(){window.scrollTo(0,0)},50)});
-window.addEventListener('focus',function(){window.scrollTo(0,0)});
+window.addEventListener('load',function(){
+  window.scrollTo(0,0);
+  document.documentElement.style.scrollBehavior='smooth';
+});
+window.addEventListener('pageshow',function(e){
+  if(!e.persisted) setTimeout(function(){window.scrollTo(0,0)},50);
+});
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +36,7 @@ window.addEventListener('focus',function(){window.scrollTo(0,0)});
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
@@ -486,7 +490,7 @@ section {
   right: 20%;
   height: 2px;
   background: linear-gradient(to right, transparent, var(--neon-red), transparent);
-  z-index: 2;
+  pointer-events: none;
 }
 .trailer-frame::after {
   content: '';
@@ -496,17 +500,19 @@ section {
   right: 30%;
   height: 2px;
   background: linear-gradient(to right, transparent, var(--hot-orange), transparent);
-  z-index: 2;
+  pointer-events: none;
 }
 
 .trailer-frame iframe {
+  position: relative;
+  z-index: 5;
   width: 100%;
   height: 100%;
   border: none;
 }
 
 /* Corner markers */
-.corner-markers {
+.corner-markers, .corner-below {
   position: absolute;
   inset: -1px;
   pointer-events: none;
@@ -888,7 +894,7 @@ footer {
 }
 </style>
 </head>
-<body onload="window.scrollTo(0,0)">
+<body>
 
 <div class="grid-bg"></div>
 
@@ -956,7 +962,7 @@ footer {
       title="Angry Chef World Tour Trailer"
       tabindex="-1"
       loading="lazy"
-      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
       allowfullscreen>
     </iframe>
   </div>
@@ -1138,9 +1144,25 @@ window.addEventListener('scroll', () => {
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'auto' });
+    var href = a.getAttribute('href');
+    var target = document.querySelector(href);
+    if (target) {
+      var y = target.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      history.replaceState(null, null, href);
+    }
   });
+});
+
+// Handle back/forward to scroll to anchor position
+window.addEventListener('popstate', function() {
+  var hash = location.hash;
+  if (hash) {
+    var target = document.querySelector(hash);
+    if (target) target.scrollIntoView();
+  } else {
+    window.scrollTo(0, 0);
+  }
 });
 
 // Scroll reveal
