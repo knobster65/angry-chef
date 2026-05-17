@@ -478,27 +478,85 @@ section {
   padding: 1rem 0;
 }
 
-.trailer-yt-wrapper {
+.trailer-poster-link {
   position: relative;
-  width: 90%;
-  max-width: 960px;
-  margin: 0 auto;
+  display: inline-block;
+  max-width: 90%;
+  width: 960px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.trailer-poster-link:hover {
+  transform: scale(1.01);
+}
+.trailer-poster-link img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0.5) saturate(1.2);
+  transition: filter 0.3s, transform 0.3s;
+}
+.trailer-poster-link:hover img {
+  filter: brightness(0.35) saturate(1.5);
+  transform: scale(1.03);
 }
 
-/* Force iframe to scale on smaller screens */
-@media (max-width: 1280px) {
-  .trailer-yt-wrapper iframe {
-    width: 100% !important;
-    height: 56.25vw !important;
-    min-height: 300px;
-  }
+/* Play button overlay */
+.trailer-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  background: rgba(255, 23, 68, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 40px rgba(255, 23, 68, 0.5);
+}
+.trailer-poster-link:hover .trailer-play-overlay {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 0 60px rgba(255, 23, 68, 0.7);
+}
+.trailer-play-overlay svg {
+  width: 36px;
+  height: 36px;
+  margin-left: 4px;
+  fill: white;
 }
 
-@media (max-width: 768px) {
-  .trailer-yt-wrapper iframe {
-    width: 100% !important;
-    height: 75vw !important;
-  }
+/* Pulse ring animation */
+.trailer-play-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid var(--neon-red);
+  pointer-events: none;
+  animation: ytPulse 2s infinite;
+}
+@keyframes ytPulse {
+  0% { width: 96px; height: 96px; opacity: 0.5; }
+  100% { width: 140px; height: 140px; opacity: 0; }
+}
+
+/* Neon accent bar under trailer */
+.trailer-accent {
+  margin-top: 0.5rem;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--hot-orange), transparent);
+  width: 60%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ===== GAME MODES ===== */
@@ -903,21 +961,14 @@ footer {
     <p class="section-desc" style="margin-top: 1rem;">Watch it. Then survive it.</p>
   </div>
   <div class="trailer-frame reveal">
-    <div class="trailer-yt-wrapper">
-      <iframe width="1280" height="720"
-        src="https://www.youtube.com/embed/cyvWhFaTiQw?rel=0&modestbranding=1&origin=https://outhousepoets.com&enablejsapi=1"
-        title="Angry Chef World Tour Trailer"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-        allowfullscreen>
-      </iframe>
-    </div>
-  </div>
-  <div style="text-align: center; margin-top: 2rem;" class="reveal">
-    <a href="https://www.youtube.com/watch?v=cyvWhFaTiQw" target="_blank" rel="noopener" class="btn btn-primary hoverable" style="font-size: 0.85rem; padding: 1rem 2.5rem;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2c-.3-1-1-1.8-2-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.5.6c-1 .3-1.7 1.1-2 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8c.3 1 1 1.8 2 2.1 1.9.6 9.5.6 9.5.6s7.6 0 9.5-.6c1-.3 1.7-1.1 2-2.1.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.6V8.4l6.4 3.6-6.4 3.6z"/></svg>
-      Watch Trailer on YouTube
+    <a href="https://www.youtube.com/watch?v=cyvWhFaTiQw" target="_blank" rel="noopener" class="trailer-poster-link hoverable">
+      <img src="screenshot1.jpg" alt="Angry Chef World Tour trailer">
+      <div class="trailer-play-overlay">
+        <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+      </div>
+      <div class="trailer-play-ring"></div>
     </a>
+    <div class="trailer-accent"></div>
   </div>
 </section>
 
